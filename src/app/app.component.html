@@ -1,18 +1,14 @@
 <mat-sidenav-container>
   <mat-sidenav  #sidenav role="navigation">
     <mat-nav-list>
+
       <a mat-list-item
          *ngIf="!isAuthenticated()"
          (click)="login()">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">Login</span>
       </a>
-      <a mat-list-item
-         *ngIf="isAuthenticated()"
-         routerLink="/">
-        <mat-icon class="icon">home</mat-icon>
-        <span class="label">Home</span>
-      </a>
+
       <a mat-list-item
          routerLink="/dashboard">
         <mat-icon class="icon">dashboard</mat-icon>
@@ -38,6 +34,9 @@
           Central Erros
         </a>
       </div>
+      <div fxFlex fxLayout fxLayoutAlign="flex-start"  fxHide.xs>
+      <span class="titulo">Bem vindo Usuário. Seu token é: {{token()}}</span>
+      </div>
       <div fxFlex fxLayout fxLayoutAlign="flex-end"  fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
@@ -48,14 +47,7 @@
               <span  class="label">Login</span>
             </a>
           </li>
-          <li>
-            <a
-              *ngIf="isAuthenticated()"
-              routerLink="/">
-              <mat-icon class="icon">home</mat-icon>
-              <span class="label">Home</span>
-            </a>
-          </li>
+
           <li>
             <a
               routerLink="/dashboard">
@@ -66,7 +58,7 @@
           <li>
             <a
               *ngIf="isAuthenticated()"
-              (click)="logout()" type="button"
+              (click)="logOff()" type="button"
             >
               <mat-icon class="icon">input</mat-icon>
               <span class="label">LogOut</span>

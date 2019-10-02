@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { AuthGuardService } from '../auth/auth-guard.service';
+import { TokenService } from '../auth/token.service';
 
 @Component({
   selector: 'app-login',
@@ -8,16 +10,29 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   hide = true;
-  email = new FormControl('', [Validators.required, Validators.email]);
+  formulario: FormGroup;
 
   getErrorMessage() {
-    return this.email.hasError('required') ? 'Você deve entrar com o e-mail' :
-      this.email.hasError('email') ? 'E-mail não é válido' :
+    return this.formulario.hasError('required') ? 'Você deve entrar com o e-mail' :
+      this.formulario.hasError('email') ? 'E-mail não é válido' :
         '';
   }
-  constructor() { }
+  constructor(private authGuardService: AuthGuardService
+    , private tokenService: TokenService
+    , private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.tokenService.removeToken();
+
+    this.formulario = this.formBuilder.group({
+      password: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+    });
+  }
+
+
+  LogOn() {
+    this.authGuardService.retrieveToken(this.formulario.get('email').value, this.formulario.get('password').value);
   }
 
 }
