@@ -1,26 +1,25 @@
-name: Node CI
+pool:
+  name: Azure Pipelines
+  demands: npm
 
-on: [push]
+steps:
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    verbose: false
 
-jobs:
-  build:
+- task: Npm@1
+  displayName: 'npm build '
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run build --prod'
 
-    runs-on: ubuntu-latest
+- task: ArchiveFiles@2
+  displayName: 'Archive dist/central-erros'
+  inputs:
+    rootFolderOrFile: 'dist/central-erros'
+    includeRootFolder: false
 
-    strategy:
-      matrix:
-        node-version: [8.x, 10.x, 12.x]
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
-      run: |
-        npm install
-        npm run build --if-present
-        npm test
-      env:
-        CI: true
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
