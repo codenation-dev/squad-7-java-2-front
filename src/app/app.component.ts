@@ -9,7 +9,6 @@ import { AuthGuardService } from './auth/auth-guard.service';
 export class AppComponent {
   constructor(private authGuardService: AuthGuardService) { }
 
-
   logOff() {
     this.authGuardService.logout();
   }
@@ -20,6 +19,10 @@ export class AppComponent {
 
   token() {
     return this.authGuardService.checkCredentials();
+  }
+
+  getUsuario() {
+    return this.authGuardService.getUsuario();
   }
 
 }

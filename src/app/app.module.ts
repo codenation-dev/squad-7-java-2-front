@@ -14,12 +14,14 @@ import { MaterialModule } from './share/material.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { RequestInterceptor } from './auth/request.interceptor';
+import { UserCreateComponent } from './user-create/user-create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    UserCreateComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
 export class AuthGuardService implements CanActivate {
   private clientId = 'squad7';
 
+  usuario = 'anônimo';
+
   private baseUrl = environment.API_URL;
   constructor(private router: Router
     , private http: HttpClient
@@ -31,6 +33,7 @@ export class AuthGuardService implements CanActivate {
     params.append('username', username);
     params.append('password', password);
 
+    this.tokenService.setUsuario(this.usuario);
 
     const headers = new HttpHeaders({
       'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', Authorization: 'Basic '
@@ -38,7 +41,7 @@ export class AuthGuardService implements CanActivate {
     });
     this.http.post(`${this.baseUrl}/oauth/token`, params.toString(), { headers })
       .subscribe(
-        data => this.saveToken(data),
+        data => { this.saveToken(data); this.tokenService.setUsuario(username); },
         err => alert('Login inválido!'),
       );
   }
@@ -72,6 +75,10 @@ export class AuthGuardService implements CanActivate {
 
   hasToken() {
     return this.tokenService.hasToken();
+  }
+
+  getUsuario() {
+    return this.tokenService.getUsuario();
   }
 
 }

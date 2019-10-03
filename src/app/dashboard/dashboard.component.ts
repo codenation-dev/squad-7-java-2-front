@@ -14,7 +14,7 @@ import { HttpDatabaseService } from '../share/services/http-database/http-databa
 export class DashboardComponent implements AfterViewInit {
 
 
-  displayedColumns: string[] = ['level', 'detail'];
+  displayedColumns: string[] = ['level', 'detail', 'frequencia'];
 
   data: DetailsItemLog[] = [];
 

@@ -11,8 +11,8 @@
 
       <a mat-list-item
          routerLink="/dashboard">
-        <mat-icon class="icon">Consulta</mat-icon>
-        <span class="label">Consulta</span>
+        <mat-icon class="icon">home</mat-icon>
+        <span class="label"> Consulta</span>
       </a>
       <a  mat-list-item
           *ngIf="isAuthenticated()"
@@ -35,7 +35,7 @@
         </a>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="flex-start"  fxHide.xs>
-      <span class="titulo">Bem vindo Usuário. Seu token é: {{token()}}</span>
+      <span  *ngIf="isAuthenticated()" class="titulo">Bem vindo {{getUsuario()}}. Seu token é: {{token()}}</span>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="flex-end"  fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
@@ -50,9 +50,10 @@
 
           <li>
             <a
+             *ngIf="isAuthenticated()"
               routerLink="/dashboard">
-              <mat-icon class="icon">Consulta</mat-icon>
-              <span class="label">Consulta</span>
+              <mat-icon class="icon">home</mat-icon>
+              <span class="label"> Consulta</span>
             </a>
           </li>
           <li>
