@@ -3,13 +3,13 @@
     <mat-nav-list>
 
       <a mat-list-item
-         *ngIf="!isAuthenticated()"
          (click)="login()">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">Login</span>
       </a>
 
       <a mat-list-item
+        *ngIf="isAuthenticated()"
          routerLink="/dashboard">
         <mat-icon class="icon">home</mat-icon>
         <span class="label"> Consulta</span>
@@ -73,5 +73,7 @@
 
 </mat-sidenav-container>
 <main>
-   <router-outlet></router-outlet>
+
+     <router-outlet></router-outlet>
+
  </main>

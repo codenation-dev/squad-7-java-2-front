@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DetailsLogs } from './github';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DetailsLogs } from './model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 import { take } from 'rxjs/operators';
@@ -13,13 +13,23 @@ export class HttpDatabaseService {
   constructor(private _httpClient: HttpClient) { }
   href = `${environment.API_URL}`;
 
-  getRepoIssues(sort: string, order: string, page: number): Observable<DetailsLogs> {
+  getLogs(sort: string, order: string, page: number, ambiente: string): Observable<DetailsLogs> {
 
+    let params = new HttpParams()
+      .set('pageNumber', `${page}`)
+      .set('pageSize', '10')
+      .set('pageOrderBy', `${sort}`)
+      .set('pageDirection', `${order.toLocaleUpperCase()}`)
+      ;
+    console.log("ambiente -> " + ambiente);
 
-    const requestUrl =
-      `${this.href}/log/filter?page=${page}&size=10`;
+    if (ambiente !== undefined && ambiente !== null && ambiente.length > 0) {
+      params = params.set('environment', `${ambiente}`);
+    }
 
-    return this._httpClient.get<DetailsLogs>(requestUrl);
+    const requestUrl = `${this.href}/log/filter`;
+
+    return this._httpClient.get<DetailsLogs>(requestUrl, { params });
   }
 
   forgot(email) {

@@ -13,3 +13,8 @@ export interface DetailsItemLog {
   timeEvent: string;
   id: number;
 }
+
+export interface ComboSelect {
+  value: string;
+  viewValue: string;
+}
