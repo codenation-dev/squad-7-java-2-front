@@ -1,52 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { TokenService } from '../auth/token.service';
 import { HttpDatabaseService } from '../share/services/http-database/http-database.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-user-create',
+  templateUrl: './user-create.component.html',
+  styleUrls: ['./user-create.component.css']
 })
-export class LoginComponent implements OnInit {
+export class UserCreateComponent implements OnInit {
+
   hide = true;
   formulario: FormGroup;
 
   getErrorMessage() {
     return this.formulario.hasError('required') ? 'Você deve entrar com o e-mail' :
       this.formulario.hasError('email') ? 'E-mail não é válido' :
-        '';
+        this.formulario.hasError('name') ? 'Nome não informado' :
+          '';
   }
-  constructor(private authGuardService: AuthGuardService
-    , private router: Router
-    , private tokenService: TokenService
+  constructor(private router: Router
     , private formBuilder: FormBuilder
     , private httpDatabaseService: HttpDatabaseService) { }
 
   ngOnInit() {
-    this.tokenService.removeToken();
-
     this.formulario = this.formBuilder.group({
       password: [null, [Validators.required]],
+      name: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
     });
   }
 
+  salvar() {
 
-  LogOn() {
-    this.authGuardService.retrieveToken(this.formulario.get('email').value, this.formulario.get('password').value);
+    const dataBody = JSON.stringify(this.formulario.value);
+    this.httpDatabaseService
+      .save(dataBody)
+      .subscribe(
+        dados => {
+          alert('Usuário Salvo com sucesso!');
+          this.router.navigate(['/login']);
+        },
+        (error: any) => alert(error)
+      );
   }
 
-  forgot() {
-    if (this.formulario.get('email').valid) {
-      this.httpDatabaseService.forgot(this.formulario.get('email').value)
-        .subscribe(
-          reponse => alert('Nova senha enviada para o seu e-mail'),
-          (error: any) => alert(error)
-        );
+  onSalvar() {
+    if (this.formulario.valid) {
+      this.salvar();
     } else {
+      console.log('formulario invalido');
       this.verificaValidacoesForm(this.formulario);
     }
   }
@@ -63,8 +68,4 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  registre() {
-    this.router.navigate(['/user-create']);
-  }
 }
-

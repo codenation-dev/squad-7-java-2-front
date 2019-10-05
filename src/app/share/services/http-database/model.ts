@@ -6,10 +6,17 @@ export interface DetailsLogs {
 
 export interface DetailsItemLog {
   archived: boolean;
+  createdBy: string;
+  createdDate: Date;
   detail: string;
-  environment: string;
+  frequencia: number;
+  id: number;
+  ip: string;
   level: string;
   title: string;
-  timeEvent: string;
-  id: number;
+}
+
+export interface ComboSelect {
+  value: string;
+  viewValue: string;
 }

@@ -1,0 +1,18 @@
+mat-card {
+  margin: 30px;
+}
+
+mat-grid-tile {
+  background: lightgrey;
+}
+
+p {
+  margin: 5px;
+  color: blue
+}
+
+.level {
+  color: brown
+}
+
+.detail {}

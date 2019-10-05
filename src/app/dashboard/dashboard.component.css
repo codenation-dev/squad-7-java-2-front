@@ -6,13 +6,10 @@
 
 .example-table-container {
   position: relative;
-  max-height: 400px;
+  max-height: 100%;
   overflow: auto;
 }
 
-table {
-  width: 100%;
-}
 
 .example-loading-shade {
   position: absolute;
@@ -39,6 +36,36 @@ table {
   max-width: 64px;
 }
 
-.mat-column-created {
-  max-width: 124px;
+
+
+
+table {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+}
+
+table {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+
+.mat-column-detail {
+  max-width: 500px;
+}
+
+.mat-column-level {
+  max-width: 100px;
+}
+
+.mat-column-frequencia {
+  max-width: 100px;
 }

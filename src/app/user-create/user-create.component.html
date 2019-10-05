@@ -2,13 +2,17 @@
 
   <mat-card class="box">
     <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
+      <mat-card-title>Cadastro</mat-card-title>
     </mat-card-header>
 
     <form class="example-form" [formGroup]="formulario">
       <mat-card-content>
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Entre com seu e-mail"  id="email" formControlName="email">
+          <mat-error *ngIf="formulario.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+          <mat-form-field class="example-full-width">
+          <input matInput placeholder="Entre com nome"  id="name" formControlName="name">
           <mat-error *ngIf="formulario.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width">
@@ -19,18 +23,9 @@
           </button>
         </mat-form-field>
       </mat-card-content>
-      <button mat-stroked-button color="accent" class="btn-block" (click)="LogOn()">Login</button>
+      <button mat-stroked-button color="accent" class="btn-block" (click)="onSalvar()">Salvar</button>
 
     </form>
-
-    <a  mat-button routerLink="." color="warn" >
-      <span (click)="forgot()" class="label">Esqueci a senha</span>
-    </a>
-
-     <a mat-button  color="primary" >
-      <span (click)="registre()" class="label">Registrar?</span>
-    </a>
-
   </mat-card>
 
 </div>

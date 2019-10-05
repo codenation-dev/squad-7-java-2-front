@@ -1,0 +1,38 @@
+<div *ngIf="(detalheLog$ | async) as detalheLog">
+  <div>
+    <h1></h1>
+  </div>
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{detalheLog.title}}</mat-card-title>
+      <mat-card-subtitle>{{detalheLog.ip}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <strong>Detalhes</strong>
+
+      <mat-grid-list cols="6" rowHeight="50px">
+        <mat-grid-tile colspan="5" rowspan="4">
+          <div class="detail">{{detalheLog.detail}}</div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <span class="level">{{detalheLog.level}}</span>
+        </mat-grid-tile>
+        <mat-grid-tile rowspan="2">
+          <strong>Frequencia:</strong>
+          <p>{{detalheLog.frequencia}}</p>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <strong>Criado por:</strong>
+          <p> {{detalheLog.createdBy}}</p>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <button color="primary" mat-raised-button (click)="redirectToDashboad()">Voltar</button>
+    </mat-card-actions>
+  </mat-card>
+
+</div>

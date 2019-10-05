@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { DetailsLogs } from './github';
-import { HttpClient } from '@angular/common/http';
+import { DetailsLogs } from './model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
+import { environment } from 'src/environments/environment';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +11,61 @@ import { Observable } from 'rxjs/internal/Observable';
 export class HttpDatabaseService {
 
   constructor(private _httpClient: HttpClient) { }
+  href = `${environment.API_URL}`;
 
-  getRepoIssues(sort: string, order: string, page: number): Observable<DetailsLogs> {
-    const href = 'https://central-erros-squad7.herokuapp.com/log/filter';
-    // const requestUrl =
-    //  `${href}?q=repo:angular/components&sort=${sort}&order=${order}&page=${page + 1}`;
+  getLogs(sort: string, order: string, page: number, ambiente: string): Observable<DetailsLogs> {
 
-    const requestUrl =
-      `${href}?page=${page + 1}&size=10`;
+    let params = new HttpParams()
+      .set('pageNumber', `${page}`)
+      .set('pageSize', '10')
+      .set('pageOrderBy', `${sort}`)
+      .set('pageDirection', `${order.toLocaleUpperCase()}`)
+      ;
+    console.log("ambiente -> " + ambiente);
 
-    return this._httpClient.get<DetailsLogs>(requestUrl);
+    if (ambiente !== undefined && ambiente !== null && ambiente.length > 0) {
+      params = params.set('environment', `${ambiente}`);
+    }
+
+    const requestUrl = `${this.href}/log/filter`;
+
+    return this._httpClient.get<DetailsLogs>(requestUrl, { params });
   }
+
+  forgot(email) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const dataBody = `{ "email": "${email}" }`;
+    return this._httpClient.post<any>(`${this.href}/auth/forgot`, dataBody, httpOptions).pipe(take(1));
+  }
+
+  public delete = (id: string) => {
+    return this._httpClient.delete(`${this.href}/log/${id}`, { responseType: 'text' });
+  }
+
+  public get(id: string) {
+    return this._httpClient.get<any>(`${this.href}/log/${id}`).pipe(take(1));
+  }
+
+  public put(dataBody: string) {
+    return this._httpClient.put(`${this.href}/log`, dataBody, this.makeHttpOtpions()).pipe(take(1));
+  }
+
+
+  save(dataBody: string) {
+    return this._httpClient.post(`${this.href}/user`, dataBody, this.makeHttpOtpions()).pipe(take(1));
+  }
+
+  private makeHttpOtpions() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return httpOptions;
+  }
+
 }
