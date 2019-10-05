@@ -42,15 +42,30 @@ export class HttpDatabaseService {
     return this._httpClient.post<any>(`${this.href}/auth/forgot`, dataBody, httpOptions).pipe(take(1));
   }
 
-  save(dataBody: string) {
+  public delete = (id: string) => {
+    return this._httpClient.delete(`${this.href}/log/${id}`, { responseType: 'text' });
+  }
 
+  public get(id: string) {
+    return this._httpClient.get<any>(`${this.href}/log/${id}`).pipe(take(1));
+  }
+
+  public put(dataBody: string) {
+    return this._httpClient.put(`${this.href}/log`, dataBody, this.makeHttpOtpions()).pipe(take(1));
+  }
+
+
+  save(dataBody: string) {
+    return this._httpClient.post(`${this.href}/user`, dataBody, this.makeHttpOtpions()).pipe(take(1));
+  }
+
+  private makeHttpOtpions() {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-
-    return this._httpClient.post(`${this.href}/user`, dataBody, httpOptions).pipe(take(1));
-
+    return httpOptions;
   }
+
 }

@@ -15,13 +15,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { RequestInterceptor } from './auth/request.interceptor';
 import { UserCreateComponent } from './user-create/user-create.component';
+import { DetalheComponent } from './detalhe/detalhe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     LoginComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    DetalheComponent
   ],
   imports: [
     BrowserModule,
